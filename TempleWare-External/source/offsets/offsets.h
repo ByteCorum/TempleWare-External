@@ -4,11 +4,11 @@
 
 namespace offsets {
     // Game offsets
-    constexpr std::ptrdiff_t dwLocalPlayerPawn = 0x17C17F0;
-    constexpr std::ptrdiff_t dwLocalPlayerController = 0x19A41C8;
-    constexpr std::ptrdiff_t dwEntityList = 0x1954568;
-    constexpr std::ptrdiff_t dwViewMatrix = 0x19B64F0;
-    constexpr std::ptrdiff_t dwViewAngles = 0x19C5958;
+    constexpr std::ptrdiff_t dwLocalPlayerPawn = 0x1855CE8;
+    constexpr std::ptrdiff_t dwLocalPlayerController = 0x1A41FD0;
+    constexpr std::ptrdiff_t dwEntityList = 0x19F2488;
+    constexpr std::ptrdiff_t dwViewMatrix = 0x1A54550;
+    constexpr std::ptrdiff_t dwViewAngles = 0x1A5E650;
     constexpr std::ptrdiff_t m_vecOrigin = 0x548;
 
     // Player details

@@ -1,5 +1,5 @@
 #include "fov.h"
-#include "../offsets/globals.h"
+#include "../globals/globals.h"
 #include "../offsets/offsets.h"
 
 namespace features {

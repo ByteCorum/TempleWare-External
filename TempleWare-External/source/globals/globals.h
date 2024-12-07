@@ -2,10 +2,9 @@
 
 #include <cstddef>
 #include <locale>
+#include <Windows.h>
 
-#include "../../imgui/imgui.h"
-
-#define VK_LSHIFT 0xA0
+#include "../../external/imgui/imgui.h"
 
 namespace globals {
     
@@ -29,15 +28,16 @@ namespace globals {
     // NoFlash
     inline bool NoFlashEnabled = false;                // No Flash activation state
 
-    // Menu
-    inline ImVec4 MenuAccentColor = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);  // GUI color setting
-    inline bool Rainbow = false;                       // Rainbow color mode activation
-    inline bool MenuVisible = true;                    // Menu visibility state
-
     // Application state
     inline bool isRunning = true;                      // Whether the hack is running
     inline std::uintptr_t client = 0;                  // Client base address
 
     // Misc
     inline bool BunnyHopEnabled = false;               // Bhop activation state
+
+    // Menu
+    inline bool MenuVisible = true;                    // Menu visibility state
+    inline int ShowMenuKey = VK_END;                   // Key to toggle menu visibility
+    inline ImVec4 MenuAccentColor = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);  // GUI color setting
+    inline bool Rainbow = false;                       // Rainbow color mode activation
 }

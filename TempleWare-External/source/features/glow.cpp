@@ -1,5 +1,5 @@
 #include "glow.h"
-#include "../offsets/globals.h"
+#include "../globals/globals.h"
 #include "../offsets/offsets.h"
 #include <thread>
 

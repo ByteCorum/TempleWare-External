@@ -1,5 +1,5 @@
 #include "TriggerBot.h"
-#include "../offsets/globals.h"
+#include "../globals/globals.h"
 #include "../offsets/offsets.h"
 #include <thread>
 #include <Windows.h> 

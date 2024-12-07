@@ -2,12 +2,12 @@
 #include "../features/fov.h"
 #include "../features/noflash.h"
 #include "../features/triggerbot.h"
-#include "../menu/gui.h"
+#include "../menu/menu.h"
 #include "../features/bhop.h"
 #include "../features/glow.h"
 
 #include "../offsets/offsets.h"
-#include "../offsets/globals.h"
+#include "../globals/globals.h"
 
 #include <thread>
 

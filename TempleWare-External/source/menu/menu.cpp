@@ -1,10 +1,10 @@
-#include "gui.h"
+#include "menu.h"
 
-#include "../offsets/globals.h"
+#include "../globals/globals.h"
 
-#include "../../imgui/imgui.h"
-#include "../../imgui/imgui_impl_dx9.h"
-#include "../../imgui/imgui_impl_win32.h"
+#include "../../external/imgui/imgui_impl_dx9.h"
+#include "../../external/imgui/imgui_impl_win32.h"
+#include "../../external/imgui/imgui.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(
     HWND window,
@@ -24,6 +24,7 @@ LRESULT CALLBACK WindowProcess(
 
     switch (message)
     {
+
     case WM_SIZE: {
         if (gui::device && wideParameter != SIZE_MINIMIZED)
         {
@@ -75,11 +76,11 @@ LRESULT CALLBACK WindowProcess(
         }
         return 0;
     }
-
     }
 
     return DefWindowProc(window, message, wideParameter, longParameter);
 }
+
 
 void gui::CreateHWindow(const char* windowName) noexcept
 {

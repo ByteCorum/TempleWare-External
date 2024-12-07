@@ -1,6 +1,6 @@
 #include "bhop.h"
-#include "../offsets/globals.h"
 #include "../offsets/offsets.h"
+#include "../globals/globals.h"
 
 namespace features
 {

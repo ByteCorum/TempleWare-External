@@ -3,9 +3,9 @@
  *                     (c) 2023-2024 Temple Client Cheats Team. All rights reserved.            *
  ************************************************************************************************/
 
-#include "menu/GUI.h"
-#include "memory/Memory.h"
-#include "offsets/Globals.h"
+#include "menu/menu.h"
+#include "memory/memory.h"
+#include "globals/globals.h"
 #include "threads/threads.h"
 
 #include <thread>
