@@ -7,6 +7,7 @@
 #include "memory/memory.h"
 #include "globals/globals.h"
 #include "threads/threads.h"
+#include "offsets/offsets.h"
 
 #include <thread>
 
@@ -15,6 +16,9 @@ int __stdcall wWinMain(
     HINSTANCE previousInstance,
     PWSTR arguments,
     int commandShow) {
+
+    if (!offsets::UpdateOffset())
+        return EXIT_FAILURE;
 
     const auto memory = Memory("cs2.exe");
 

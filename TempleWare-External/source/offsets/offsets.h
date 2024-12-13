@@ -1,34 +1,38 @@
 #pragma once
 
 #include <locale>
+#include <json.hpp>
+
+using json = nlohmann::json;
 
 namespace offsets {
     // Game offsets
-    constexpr std::ptrdiff_t dwLocalPlayerPawn = 0x1855CE8;
-    constexpr std::ptrdiff_t dwLocalPlayerController = 0x1A41FD0;
-    constexpr std::ptrdiff_t dwEntityList = 0x19F2488;
-    constexpr std::ptrdiff_t dwViewMatrix = 0x1A54550;
-    constexpr std::ptrdiff_t dwViewAngles = 0x1A5E650;
-    constexpr std::ptrdiff_t m_vecOrigin = 0x548;
+    inline std::ptrdiff_t dwLocalPlayerPawn;
+    inline std::ptrdiff_t dwLocalPlayerController;
+    inline std::ptrdiff_t dwEntityList;
+    inline std::ptrdiff_t dwViewMatrix;
+    inline std::ptrdiff_t dwViewAngles;
 
     // Player details
-    constexpr std::ptrdiff_t m_pCameraServices = 0x1130;
-    constexpr std::ptrdiff_t m_glowColorOverride = 0x40;
-    constexpr std::ptrdiff_t m_iFOV = 0x210;
-    constexpr std::ptrdiff_t m_bGlowing = 0x51;
-    constexpr std::ptrdiff_t m_bIsScoped = 0x22A0;
-    constexpr std::ptrdiff_t attack = 0x17BA020;
-    constexpr std::ptrdiff_t m_iIDEntIndex = 0x13A8;
-    constexpr std::ptrdiff_t flFlashDuration = 0x135C;
+    inline std::ptrdiff_t m_pCameraServices;
+    inline std::ptrdiff_t m_glowColorOverride;
+    inline std::ptrdiff_t m_iFOV;
+    inline std::ptrdiff_t m_bGlowing;
+    inline std::ptrdiff_t m_bIsScoped;
+    inline std::ptrdiff_t attack;
+    inline std::ptrdiff_t m_iIDEntIndex;
+    inline std::ptrdiff_t flFlashDuration;
 
     // Entity details
-    constexpr std::ptrdiff_t m_hPawn = 0x60C;
-    constexpr std::ptrdiff_t m_hPlayerPawn = 0x7EC;
-    constexpr std::ptrdiff_t m_Glow = 0xBA0;
-    constexpr std::ptrdiff_t m_iHealth = 0x324;
-    constexpr std::ptrdiff_t m_iTeamNum = 0x3C3;
-    constexpr std::ptrdiff_t m_vOldOrigin = 0x1274;
-    constexpr std::ptrdiff_t m_entitySpottedState = 0x2288;
-    constexpr std::ptrdiff_t m_vecViewOffset = 0xC50;
-    constexpr std::ptrdiff_t m_fFlags = 0x63;
+    inline std::ptrdiff_t m_hPawn;
+    inline std::ptrdiff_t m_hPlayerPawn;
+    inline std::ptrdiff_t m_Glow;
+    inline std::ptrdiff_t m_iHealth;
+    inline std::ptrdiff_t m_iTeamNum;
+    inline std::ptrdiff_t m_vOldOrigin;
+    inline std::ptrdiff_t m_entitySpottedState;
+    inline std::ptrdiff_t m_vecViewOffset;
+    inline std::ptrdiff_t m_fFlags;
+
+    bool UpdateOffset();
 }
