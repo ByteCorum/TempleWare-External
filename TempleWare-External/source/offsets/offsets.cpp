@@ -54,7 +54,7 @@ bool offsets::UpdateOffset()
     // Player details
     m_pCameraServices= client_dllJson["C_BasePlayerPawn"]["fields"]["m_pCameraServices"];
     m_glowColorOverride= client_dllJson["CGlowProperty"]["fields"]["m_glowColorOverride"];
-    m_iFOV= client_dllJson["CCSPlayerBase_CameraServices"]["fields"]["m_iFOVStart"];
+    m_iFOV= client_dllJson["CCSPlayerBase_CameraServices"]["fields"]["m_iFOV"];
     m_bGlowing= client_dllJson["CGlowProperty"]["fields"]["m_bGlowing"];
     m_bIsScoped= client_dllJson["C_CSPlayerPawn"]["fields"]["m_bIsScoped"];
     attack= buttonsJson["client.dll"]["attack"];
