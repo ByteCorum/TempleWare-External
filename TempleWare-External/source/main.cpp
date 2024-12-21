@@ -8,50 +8,53 @@
 #include "globals/globals.h"
 #include "threads/threads.h"
 #include "offsets/offsets.h"
-
 #include <thread>
 
-int __stdcall wWinMain(
-    HINSTANCE instance,
-    HINSTANCE previousInstance,
-    PWSTR arguments,
-    int commandShow) {
-
+int __stdcall wWinMain(HINSTANCE instance, HINSTANCE previousInstance, PWSTR arguments, int commandShow) 
+{
     if (!offsets::UpdateOffset())
         return EXIT_FAILURE;
 
-    const auto memory = Memory("cs2.exe");
-
+    Memory memory("cs2.exe");
     globals::client = memory.GetModuleAddress("client.dll");
 
-    std::thread(threads::RunMiscThread, std::ref(memory)).detach();
-    std::thread(threads::RunVisualThread, std::ref(memory)).detach();
-    std::thread(threads::RunAimThread, std::ref(memory)).detach();
+    std::vector<std::thread> threads;
+    threads.emplace_back(threads::RunMiscThread, std::ref(memory));
+    threads.emplace_back(threads::RunVisualThread, std::ref(memory));
+    threads.emplace_back(threads::RunAimThread, std::ref(memory));
+
+    for (auto& thread : threads)
+        thread.detach();
 
     gui::CreateHWindow("templecheats.xyz");
     gui::CreateDevice();
-    gui::CreateImGui();
+
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NoMouse;
 
     bool windowVisible = true;
-
-    while (globals::isRunning) {
-        if (GetAsyncKeyState(VK_END) & 0x8000) {
+    while (globals::isRunning)
+    {
+        if (GetAsyncKeyState(VK_END) & 0x8000) 
+        {
             windowVisible = !windowVisible;
             ShowWindow(gui::window, windowVisible ? SW_SHOW : SW_HIDE);
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
         }
 
-        if (windowVisible) {
+        if (windowVisible) 
+        {
             gui::BeginRender();
             gui::Render();
+            ImGui::Render();
             gui::EndRender();
         }
-        else {
+        else
             std::this_thread::sleep_for(std::chrono::milliseconds(50));
-        }
     }
 
-    gui::DestroyImGui();
+    ImGui::DestroyContext();
     gui::DestroyDevice();
     gui::DestroyHWindow();
 
