@@ -32,6 +32,9 @@ namespace features {
                 continue;
 
             uint32_t playerPawn = memory.Read<uint32_t>(player + offsets::m_hPlayerPawn);
+            if (!playerPawn)
+                continue;
+
             uintptr_t listEntry2 = memory.Read<uintptr_t>(entityList + 0x8 * ((playerPawn & 0x7FFF) >> 9) + 16);
             if (!listEntry2)
                 continue;
@@ -40,8 +43,17 @@ namespace features {
             if (!playerCsPawn)
                 continue;
 
+            int health = memory.Read<int>(playerCsPawn + offsets::m_iHealth);
+            if (health < 1)
+                continue;
+
             ImVec4 color = globals::GlowColor;
-            DWORD colorArgb = ((DWORD)(color.w * 255) << 24) | ((DWORD)(color.z * 255) << 16) | ((DWORD)(color.y * 255) << 8) | (DWORD)(color.x * 255);
+            DWORD colorArgb = (
+                ((DWORD)(color.w * 255) << 24) |
+                ((DWORD)(color.z * 255) << 16) |
+                ((DWORD)(color.y * 255) << 8) |
+                (DWORD)(color.x * 255)
+                );
 
             memory.Write<DWORD64>(playerCsPawn + offsets::m_Glow + offsets::m_glowColorOverride, colorArgb);
             memory.Write<DWORD64>(playerCsPawn + offsets::m_Glow + offsets::m_bGlowing, 1);
