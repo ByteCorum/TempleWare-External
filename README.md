@@ -36,8 +36,8 @@
   
 ---
 
-## Showcase
+## Screenshots
 
-<p align="center">
-  <img src="./github/images/menu.gif" alt="Menu Screenshot">
-</p>
+Showcase|Menu
+:-:|:-:
+<img src="./github/images/showcase.png">|<img src="./github/images/menu.png">
