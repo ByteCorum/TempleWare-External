@@ -28,9 +28,12 @@ namespace threads {
         }
     }
 
-    void RunAimThread(const Memory& memory) noexcept {
-        while (gui::isRunning) {
-            if (globals::TriggerBot) {
+    void RunAimThread(const Memory& memory) noexcept
+    {
+        while (gui::isRunning)
+        {
+            if (globals::TriggerBot)
+            {
                 features::TriggerBot::Run(memory);
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(1));

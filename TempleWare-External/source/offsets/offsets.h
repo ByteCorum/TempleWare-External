@@ -22,6 +22,8 @@ namespace offsets {
     inline std::ptrdiff_t attack;
     inline std::ptrdiff_t m_iIDEntIndex;
     inline std::ptrdiff_t flFlashDuration;
+    inline std::ptrdiff_t m_iShotsFired;
+    inline std::ptrdiff_t m_aimPunchAngle;
 
     // Entity details
     inline std::ptrdiff_t m_hPawn;

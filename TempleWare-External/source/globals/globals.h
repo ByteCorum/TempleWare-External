@@ -9,35 +9,34 @@
 namespace globals {
     
     // TriggerBot
-    inline bool TriggerBot = false;                    // TriggerBot activation state
-    inline int TriggerBotKey = VK_LSHIFT;              // Key to activate TriggerBot
-    inline char TriggerBotKeyName[64] = "L-Shift";     // Name of the key for display
-    inline int TriggerBotMode = 0;                     // TriggerBot mode (Hold/Toggle)
-    inline int TriggerBotDelay = 20;                   // TriggerBot delay in milliseconds
-    inline bool TriggerBotToggled = false;             // Toggle state for TriggerBot
-    inline bool TriggerBotTeamCheck = true;            // Whether to shoot teammates or not
-    inline bool TriggerBotIgnoreFlash = false;         // Whether TriggerBot works while flashed
+    inline bool TriggerBot = false;       
+    inline int TriggerBotKey = VK_LSHIFT;    
+    inline char TriggerBotKeyName[64] = "L-Shift"; 
+    inline int TriggerBotMode = 0;       
+    inline int TriggerBotDelay = 20;           
+    inline bool TriggerBotToggled = false;    
+    inline bool TriggerBotTeamCheck = true;  
+    inline bool TriggerBotIgnoreFlash = false;  
 
     // Fov
-    inline int FOV = 90;                               // Field of View setting
+    inline int FOV = 90;          
 
     // Glow
-    inline bool Glow = false;                          // Glow activation state
-    inline ImVec4 GlowColor = ImVec4(0.0f, 0.0f, 1.0f, 1.0f); // Glow color setting
+    inline bool Glow = false;                     
+    inline ImVec4 GlowColor = ImVec4(0.0f, 0.0f, 1.0f, 1.0f);
     
     // NoFlash
-    inline bool NoFlashEnabled = false;                // No Flash activation state
+    inline bool NoFlashEnabled = false;          
 
     // Application state
-    inline bool isRunning = true;                      // Whether the hack is running
-    inline std::uintptr_t client = 0;                  // Client base address
+    inline bool isRunning = true;            
+    inline std::uintptr_t client = 0;     
 
     // Misc
-    inline bool BunnyHopEnabled = false;               // Bhop activation state
+    inline bool BunnyHopEnabled = false;     
 
     // Menu
-    inline bool MenuVisible = true;                    // Menu visibility state
-    inline int ShowMenuKey = VK_END;                   // Key to toggle menu visibility
-    inline ImVec4 MenuAccentColor = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);  // GUI color setting
-    inline bool Rainbow = false;                       // Rainbow color mode activation
+    inline bool MenuVisible = true;             
+    inline int ShowMenuKey = VK_END; 
+    inline ImVec4 MenuAccentColor = ImVec4(0.0f, 0.4f, 1.0f, 1.0f);
 }
