@@ -21,7 +21,7 @@
 ### How to Build and Launch TempleWare-External
 
 1. **Build the Executable:**
-   - Open the project in Visual Studio.
+   - Open the project in Visual Studio
    - Set the build configuration to **Release x64**.
    - Build the solution (`Build` > `Build Solution`).
    - Find the `TempleWare-External.exe` in the `\Release\x64\` folder.
