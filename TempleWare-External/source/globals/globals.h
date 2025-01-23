@@ -20,7 +20,8 @@ namespace globals
     inline bool TriggerBotIgnoreFlash = false;  
 
     // Fov
-    inline int FOV = 90;          
+    inline int FOV = 90;
+    inline int lastFOV = 90;
 
     // Glow
     inline bool Glow = false;                     
