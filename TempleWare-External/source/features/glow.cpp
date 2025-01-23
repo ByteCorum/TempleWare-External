@@ -4,7 +4,8 @@
 #include <thread>
 
 namespace features {
-    void Glow::Run(const Memory& memory) noexcept {
+    void Glow::Run(const Memory& memory) noexcept 
+    {
         if (!globals::Glow) return;
 
         const uintptr_t localPlayerController = memory.Read<uintptr_t>(globals::client + offsets::dwLocalPlayerController);
