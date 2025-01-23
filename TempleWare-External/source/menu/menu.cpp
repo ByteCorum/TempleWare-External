@@ -169,13 +169,19 @@ namespace gui
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO();
-        io.IniFilename = NULL;
-        ImGui::StyleColorsDark();
+        io.Fonts->AddFontDefault();
+        (void)io;
+
+        ImFontAtlas* fontAtlas = new ImFontAtlas();
+        ImFontConfig arialConfig;
+        arialConfig.FontDataOwnedByAtlas = false;
 
         const char* fontPath = "C:\\Windows\\Fonts\\segoeui.ttf";
         float fontSize = 18.0f;
-        if (!io.Fonts->AddFontFromFileTTF(fontPath, fontSize))
-            io.Fonts->AddFontDefault();
+        ImFont* arialFont = fontAtlas->AddFontFromFileTTF(fontPath,fontSize, &arialConfig);
+        io.Fonts = fontAtlas;
+
+        ImGui::StyleColorsDark();
 
         ImGui_ImplWin32_Init(window);
         ImGui_ImplDX9_Init(device);
