@@ -6,7 +6,8 @@
 
 #include "../../external/imgui/imgui.h"
 
-namespace globals {
+namespace globals 
+{
     
     // TriggerBot
     inline bool TriggerBot = false;       

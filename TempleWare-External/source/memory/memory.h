@@ -1,81 +1,72 @@
-#pragma once
-#define WIN32_LEAN_AND_MEAN
+﻿#pragma once
+
 #include <Windows.h>
 #include <TlHelp32.h>
-
 #include <cstdint>
-#include <string_view>
+#include <string>
 
-class Memory
-{
+class Memory {
 private:
-	std::uintptr_t processId = 0;
-	void* processHandle = nullptr;
+	std::uintptr_t processId_;
+	HANDLE processHandle_;
 
 public:
-
-	Memory(const std::string_view processName) noexcept
+	Memory(const std::string& processName) noexcept
 	{
-		::PROCESSENTRY32 entry = { };
-		entry.dwSize = sizeof(::PROCESSENTRY32);
+		PROCESSENTRY32 entry = { sizeof(PROCESSENTRY32) };
+		auto snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 
-		const auto snapShot = ::CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-
-		while (::Process32Next(snapShot, &entry))
+		while (Process32Next(snapshot, &entry)) 
 		{
-			if (!processName.compare(entry.szExeFile))
+			if (entry.szExeFile == processName) 
 			{
-				processId = entry.th32ProcessID;
-				processHandle = ::OpenProcess(PROCESS_ALL_ACCESS, FALSE, processId);
+				processId_ = entry.th32ProcessID;
+				processHandle_ = OpenProcess(PROCESS_ALL_ACCESS, FALSE, processId_);
 				break;
 			}
 		}
 
-		if (snapShot)
-			::CloseHandle(snapShot);
+		CloseHandle(snapshot);
 	}
 
-	~Memory()
+	~Memory() noexcept 
 	{
-		if (processHandle)
-			::CloseHandle(processHandle);
+		if (processHandle_)
+			CloseHandle(processHandle_);
 	}
 
-	const std::uintptr_t GetModuleAddress(const std::string_view moduleName) const noexcept
+	std::uintptr_t GetModuleAddress(const std::string& moduleName) const noexcept
 	{
-		::MODULEENTRY32 entry = { };
-		entry.dwSize = sizeof(::MODULEENTRY32);
-
-		const auto snapShot = ::CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, processId);
-
+		MODULEENTRY32 entry = { sizeof(MODULEENTRY32) };
+		auto snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, processId_);
 		std::uintptr_t result = 0;
 
-		while (::Module32Next(snapShot, &entry))
+		while (Module32Next(snapshot, &entry)) 
 		{
-			if (!moduleName.compare(entry.szModule))
+			if (entry.szModule == moduleName) 
 			{
 				result = reinterpret_cast<std::uintptr_t>(entry.modBaseAddr);
 				break;
 			}
 		}
 
-		if (snapShot)
-			::CloseHandle(snapShot);
-
+		CloseHandle(snapshot);
 		return result;
 	}
 
 	template <typename T>
-	constexpr const T Read(const std::uintptr_t& address) const noexcept
+	T Read(const std::uintptr_t& address) const noexcept 
 	{
-		T value = { };
-		::ReadProcessMemory(processHandle, reinterpret_cast<const void*>(address), &value, sizeof(T), NULL);
+		T value;
+		SIZE_T bytesRead;
+		ReadProcessMemory(processHandle_, reinterpret_cast<LPCVOID>(address), &value, sizeof(T), &bytesRead);
 		return value;
 	}
 
 	template <typename T>
-	constexpr void Write(const std::uintptr_t& address, const T& value) const noexcept
+	void Write(const std::uintptr_t& address, const T& value) const noexcept
 	{
-		::WriteProcessMemory(processHandle, reinterpret_cast<void*>(address), &value, sizeof(T), NULL);
+		SIZE_T bytesWritten;
+		WriteProcessMemory(processHandle_, reinterpret_cast<LPVOID>(address), &value, sizeof(T), &bytesWritten);
 	}
 };

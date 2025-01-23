@@ -12,16 +12,20 @@
 #include <thread>
 
 namespace threads {
-    void RunMiscThread(const Memory& memory) noexcept {
-        while (gui::isRunning) {
+    void RunMiscThread(const Memory& memory) noexcept 
+    {
+        while (gui::isRunning) 
+        {
             features::FOVManager::AdjustFOV(memory);
             features::Bhop::Run(memory);
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
     }
 
-    void RunVisualThread(const Memory& memory) noexcept {
-        while (gui::isRunning) {
+    void RunVisualThread(const Memory& memory) noexcept 
+    {
+        while (gui::isRunning) 
+        {
             features::NoFlash::Run(memory);
             features::Glow::Run(memory);
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -33,9 +37,7 @@ namespace threads {
         while (gui::isRunning)
         {
             if (globals::TriggerBot)
-            {
                 features::TriggerBot::Run(memory);
-            }
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
     }
