@@ -2,81 +2,80 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <TlHelp32.h>
+
 #include <cstdint>
 #include <string_view>
 
-class Memory {
+class Memory
+{
 private:
-    std::uintptr_t process_id_;  // Use more descriptive variable names
-    void* process_handle_;
+	std::uintptr_t processId = 0;
+	void* processHandle = nullptr;
 
 public:
-    Memory(const std::string_view& process_name) noexcept {
-        PROCESSENTRY32 entry = {};
-        entry.dwSize = sizeof(PROCESSENTRY32);
-        const auto snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-        if (!snapshot) {
-            // Handle error
-            return;
-        }
 
-        while (Process32Next(snapshot, &entry)) {
-            if (!process_name.compare(entry.szExeFile)) {
-                process_id_ = entry.th32ProcessID;
-                process_handle_ = OpenProcess(PROCESS_ALL_ACCESS, FALSE, process_id_);
-                break;
-            }
-        }
+	Memory(const std::string_view processName) noexcept
+	{
+		::PROCESSENTRY32 entry = { };
+		entry.dwSize = sizeof(::PROCESSENTRY32);
 
-        CloseHandle(snapshot);
-    }
+		const auto snapShot = ::CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 
-    ~Memory() {
-        if (process_handle_) {
-            CloseHandle(process_handle_);
-        }
-    }
+		while (::Process32Next(snapShot, &entry))
+		{
+			if (!processName.compare(entry.szExeFile))
+			{
+				processId = entry.th32ProcessID;
+				processHandle = ::OpenProcess(PROCESS_ALL_ACCESS, FALSE, processId);
+				break;
+			}
+		}
 
-    std::uintptr_t GetModuleAddress(const std::string_view& module_name) const noexcept {
-        MODULEENTRY32 entry = {};
-        entry.dwSize = sizeof(MODULEENTRY32);
+		if (snapShot)
+			::CloseHandle(snapShot);
+	}
 
-        const auto snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, process_id_);
-        if (!snapshot) {
-            // Handle error
-            return 0;
-        }
+	~Memory()
+	{
+		if (processHandle)
+			::CloseHandle(processHandle);
+	}
 
-        std::uintptr_t result = 0;
-        while (Module32Next(snapshot, &entry)) {
-            if (!module_name.compare(entry.szModule)) {
-                result = reinterpret_cast<std::uintptr_t>(entry.modBaseAddr);
-                break;
-            }
-        }
+	const std::uintptr_t GetModuleAddress(const std::string_view moduleName) const noexcept
+	{
+		::MODULEENTRY32 entry = { };
+		entry.dwSize = sizeof(::MODULEENTRY32);
 
-        CloseHandle(snapshot);
-        return result;
-    }
+		const auto snapShot = ::CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, processId);
 
-    template <typename T>
-    constexpr T Read(const std::uintptr_t& address) const noexcept {
-        T value = {};
-        SIZE_T bytes_read = 0;
-        if (ReadProcessMemory(process_handle_, reinterpret_cast<const void*>(address), &value, sizeof(T), &bytes_read) && bytes_read == sizeof(T)) {
-            return value;
-        }
-        else {
-            // Handle read error
-            return T();
-        }
-    }
+		std::uintptr_t result = 0;
 
-    template <typename T>
-    constexpr void Write(const std::uintptr_t& address, const T& value) const noexcept {
-        SIZE_T bytes_written = 0;
-        if (!WriteProcessMemory(process_handle_, reinterpret_cast<void*>(address), &value, sizeof(T), &bytes_written) || bytes_written != sizeof(T)) {
-            // Handle write error
-        }
-    }
+		while (::Module32Next(snapShot, &entry))
+		{
+			if (!moduleName.compare(entry.szModule))
+			{
+				result = reinterpret_cast<std::uintptr_t>(entry.modBaseAddr);
+				break;
+			}
+		}
+
+		if (snapShot)
+			::CloseHandle(snapShot);
+
+		return result;
+	}
+
+	template <typename T>
+	constexpr const T Read(const std::uintptr_t& address) const noexcept
+	{
+		T value = { };
+		::ReadProcessMemory(processHandle, reinterpret_cast<const void*>(address), &value, sizeof(T), NULL);
+		return value;
+	}
+
+	template <typename T>
+	constexpr void Write(const std::uintptr_t& address, const T& value) const noexcept
+	{
+		::WriteProcessMemory(processHandle, reinterpret_cast<void*>(address), &value, sizeof(T), NULL);
+	}
 };
