@@ -10,5 +10,6 @@ namespace features
 	{
 	public:
 		static void Run(const Memory& memory) noexcept;
+
 	};
 }
