@@ -5,7 +5,8 @@
 
 using json = nlohmann::json;
 
-namespace offsets {
+namespace offsets 
+{
     // Game offsets
     inline std::ptrdiff_t dwLocalPlayerPawn;
     inline std::ptrdiff_t dwLocalPlayerController;
