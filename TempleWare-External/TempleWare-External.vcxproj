@@ -138,7 +138,6 @@
     <ClCompile Include="source\features\bhop.cpp" />
     <ClCompile Include="source\features\glow.cpp" />
     <ClCompile Include="source\features\noflash.cpp" />
-    <ClCompile Include="source\features\rcs.cpp" />
     <ClCompile Include="source\features\triggerbot.cpp" />
     <ClCompile Include="source\menu\menu.cpp" />
     <ClCompile Include="source\main.cpp" />
@@ -160,7 +159,6 @@
     <ClInclude Include="source\features\bhop.h" />
     <ClInclude Include="source\features\glow.h" />
     <ClInclude Include="source\features\noflash.h" />
-    <ClInclude Include="source\features\rcs.h" />
     <ClInclude Include="source\features\triggerbot.h" />
     <ClInclude Include="source\globals\globals.h" />
     <ClInclude Include="source\menu\menu.h" />
