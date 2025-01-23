@@ -3,24 +3,8 @@
 #include "../offsets/offsets.h"
 #include <thread>
 
-namespace features
-{
-
-    uintptr_t GetEntityInListOffset(int index) 
-    {
-        return 0x8 * (index & 0x7FFF) >> 9 + 16;
-    }
-
-    DWORD PackColor(const ImVec4& color) 
-    {
-        return ((DWORD)(color.w * 255) << 24) |
-            ((DWORD)(color.z * 255) << 16) |
-            ((DWORD)(color.y * 255) << 8) |
-            (DWORD)(color.x * 255);
-    }
-
-    void Glow::Run(const Memory& memory) noexcept
-    {
+namespace features {
+    void Glow::Run(const Memory& memory) noexcept {
         if (!globals::Glow)
             return;
 
@@ -30,26 +14,32 @@ namespace features
 
         int localTeam = memory.Read<int>(localPlayerController + offsets::m_iTeamNum);
 
-
-        for (int i = 1; i < 64; ++i) 
-        {
+        for (int i = 1; i < 64; i++) {
             uintptr_t entityList = memory.Read<uintptr_t>(globals::client + offsets::dwEntityList);
             if (!entityList)
                 continue;
 
-            uintptr_t entity = memory.Read<uintptr_t>(entityList + GetEntityInListOffset(i));
-            if (!entity)
+            uintptr_t listEntry = memory.Read<uintptr_t>(entityList + (8 * (i & 0x7FFF) >> 9) + 16);
+            if (!listEntry)
                 continue;
 
-            int entityTeam = memory.Read<int>(entity + offsets::m_iTeamNum);
-            if (entityTeam == localTeam)
+            uintptr_t player = memory.Read<uintptr_t>(listEntry + 120 * (i & 0x1FF));
+            if (!player)
                 continue;
 
-            uint32_t playerPawn = memory.Read<uint32_t>(entity + offsets::m_hPlayerPawn);
+            int playerTeam = memory.Read<int>(player + offsets::m_iTeamNum);
+            if (playerTeam == localTeam)
+                continue;
+
+            uint32_t playerPawn = memory.Read<uint32_t>(player + offsets::m_hPlayerPawn);
             if (!playerPawn)
                 continue;
 
-            uintptr_t playerCsPawn = memory.Read<uintptr_t>(entityList + GetEntityInListOffset(playerPawn));
+            uintptr_t listEntry2 = memory.Read<uintptr_t>(entityList + 0x8 * ((playerPawn & 0x7FFF) >> 9) + 16);
+            if (!listEntry2)
+                continue;
+
+            uintptr_t playerCsPawn = memory.Read<uintptr_t>(listEntry2 + 120 * (playerPawn & 0x1FF));
             if (!playerCsPawn)
                 continue;
 
@@ -57,10 +47,14 @@ namespace features
             if (health < 1)
                 continue;
 
-
-
             ImVec4 color = globals::GlowColor;
-            DWORD colorArgb = PackColor(color);
+            DWORD colorArgb = (
+                ((DWORD)(color.w * 255) << 24) |
+                ((DWORD)(color.z * 255) << 16) |
+                ((DWORD)(color.y * 255) << 8) |
+                (DWORD)(color.x * 255)
+                );
+
             memory.Write<DWORD64>(playerCsPawn + offsets::m_Glow + offsets::m_glowColorOverride, colorArgb);
             memory.Write<DWORD64>(playerCsPawn + offsets::m_Glow + offsets::m_bGlowing, 1);
         }

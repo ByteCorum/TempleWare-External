@@ -11,42 +11,44 @@
 
 #include <thread>
 
-int __stdcall wWinMain(HINSTANCE instance, HINSTANCE previousInstance, PWSTR arguments, int commandShow)
-{
+int __stdcall wWinMain(
+    HINSTANCE instance,
+    HINSTANCE previousInstance,
+    PWSTR arguments,
+    int commandShow) {
 
     if (!offsets::UpdateOffset())
         return EXIT_FAILURE;
 
     const auto memory = Memory("cs2.exe");
+
     globals::client = memory.GetModuleAddress("client.dll");
+
+    std::thread(threads::RunMiscThread, std::ref(memory)).detach();
+    std::thread(threads::RunVisualThread, std::ref(memory)).detach();
+    std::thread(threads::RunAimThread, std::ref(memory)).detach();
 
     gui::CreateHWindow("templecheats.xyz");
     gui::CreateDevice();
     gui::CreateImGui();
 
-    std::thread miscThread(threads::RunMiscThread, std::ref(memory));
-    miscThread.detach();
-
-    std::thread visualThread(threads::RunVisualThread, std::ref(memory));
-    visualThread.detach();
-
-    std::thread aimThread(threads::RunAimThread, std::ref(memory));
-    aimThread.detach();
-
     bool windowVisible = true;
-    while (globals::isRunning) 
-    {
-        if (GetAsyncKeyState(VK_END) & 0x8000)
-        {
+
+    while (globals::isRunning) {
+        if (GetAsyncKeyState(VK_END) & 0x8000) {
             windowVisible = !windowVisible;
             ShowWindow(gui::window, windowVisible ? SW_SHOW : SW_HIDE);
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
         }
 
-        if (windowVisible)
+        if (windowVisible) {
+            gui::BeginRender();
             gui::Render();
-        else 
+            gui::EndRender();
+        }
+        else {
             std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
     }
 
     gui::DestroyImGui();
