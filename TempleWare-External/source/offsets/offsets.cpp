@@ -60,6 +60,8 @@ bool offsets::UpdateOffset()
     attack= buttonsJson["client.dll"]["attack"];
     m_iIDEntIndex= client_dllJson["C_CSPlayerPawnBase"]["fields"]["m_iIDEntIndex"];;
     flFlashDuration= client_dllJson["C_CSPlayerPawnBase"]["fields"]["m_flFlashDuration"];
+    m_iShotsFired = client_dllJson["C_CSPlayerPawn"]["fields"]["m_iShotsFired"];
+    m_aimPunchAngle = client_dllJson["C_CSPlayerPawn"]["fields"]["m_aimPunchAngle"];
 
     // Entity details
     m_hPawn= client_dllJson["CBasePlayerController"]["fields"]["m_hPawn"];

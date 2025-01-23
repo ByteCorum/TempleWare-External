@@ -153,6 +153,8 @@
     <ClCompile Include="source\threads\threads.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="external\json\json.hpp" />
+    <ClInclude Include="source\config\config.h" />
     <ClInclude Include="source\features\fov.h" />
     <ClInclude Include="source\features\bhop.h" />
     <ClInclude Include="source\features\glow.h" />

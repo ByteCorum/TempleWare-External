@@ -36,8 +36,11 @@
   
 ---
 
-## Showcase
+## Screenshots
 
-<p align="center">
-  <img src="./github/images/menu.gif" alt="Menu Screenshot">
-</p>
+| Description | Image |
+|-------------|-------|
+| **Showcase** | <img src="./github/images/showcase.png" alt="Showcase" width="600"> |
+| **Menu**     | <img src="./github/images/menu.png" alt="Menu" width="600"> |
+
+
