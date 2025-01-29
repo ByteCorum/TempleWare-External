@@ -9,7 +9,7 @@ namespace features
     {
         if (globals::lastFOV != globals::FOV)
         {
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::this_thread::sleep_for(std::chrono::milliseconds(300));
         }
 
         globals::lastFOV = globals::FOV;
