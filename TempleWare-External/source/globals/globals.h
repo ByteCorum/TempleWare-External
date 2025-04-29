@@ -22,6 +22,7 @@ namespace globals
     // Fov
     inline int FOV = 90;
     inline int lastFOV = 90;
+    inline int writtenFOV = 90;
 
     // Glow
     inline bool Glow = false;                     
